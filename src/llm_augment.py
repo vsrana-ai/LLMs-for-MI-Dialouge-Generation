@@ -71,6 +71,8 @@ for (transcript_id,), transcript_df in data.group_by('transcript_id'):
         interlocutor = transcript_df['interlocutor'][idx]
         utterance_text = transcript_df['utterance_text'][idx]
         session_text += f"{interlocutor}: {utterance_text}\n"
+    client_utterances = session_text.count('Client:')
+    therapist_utterances = session_text.count('Therapist:')
 
     # Prepare the prompt for the Ollama model
     prompt = prompt_templates['user'].format(session_text=session_text)
@@ -89,6 +91,8 @@ for (transcript_id,), transcript_df in data.group_by('transcript_id'):
         generated_text += chunk['response']
     
     # Split generated text and add structured data back to the list
+    generated_client_utterances = generated_text.count('Client:')
+    generated_therapist_utterances = generated_text.count('Therapist:')
     augmented_rows = generated_text.split('\n')
     for line in augmented_rows:
         if line.strip() and ':' in line:
@@ -96,7 +100,8 @@ for (transcript_id,), transcript_df in data.group_by('transcript_id'):
             new_row = {
                 'transcript_id': transcript_id,
                 'interlocutor': interlocutor.strip(),
-                'utterance_text': text.strip()
+                'utterance_text': text.strip(),
+                'same_number_of_interlocutors_rounds': generated_client_utterances == client_utterances and generated_therapist_utterances == therapist_utterances
             }
             augmented_texts.append(new_row)
 
