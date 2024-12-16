@@ -43,6 +43,13 @@ base_outpath = os.path.join(input_files_basepath, 'LLM Augmented Dataset', args.
 
 input_annomi_file = os.path.join(input_files_basepath, subpath, 'merged_train.csv')
 output_path = os.path.join(base_outpath, subpath)
+output_csv_file = os.path.join(output_path, f"augmented_{args.llm.replace('/', '_')}.csv")
+os.makedirs(os.path.dirname(output_csv_file), exist_ok=True)
+if os.path.exists(output_csv_file):
+    augmented_df = pl.read_csv(output_csv_file)
+    transcript_discard = set(augmented_df['transcript_id'].unique().to_list())
+else:
+    transcript_discard = set()
 
 data = pl.read_csv(input_annomi_file)
 
@@ -64,6 +71,9 @@ ollama.create(
 
 # 2) Group by session ID to process each session individually
 for (transcript_id,), transcript_df in data.group_by('transcript_id'):
+    if transcript_id in transcript_discard:
+        continue
+
     session_text = ""
     
     # Construct session text by iterating over each row
@@ -105,10 +115,7 @@ for (transcript_id,), transcript_df in data.group_by('transcript_id'):
             }
             augmented_texts.append(new_row)
 
-# 4) Save the augmented data as a new CSV file with a descriptive filename
-augmented_df = pl.DataFrame(augmented_texts)
-output_csv_file = os.path.join(output_path, f"augmented_{args.llm.replace('/', '_')}.csv")
-os.makedirs(os.path.dirname(output_csv_file), exist_ok=True)
-augmented_df.write_csv(output_csv_file)
+    augmented_df = pl.DataFrame(augmented_texts)
+    augmented_df.write_csv(output_csv_file)
 
 print(f"\n\nAugmented data saved to {output_csv_file}")
