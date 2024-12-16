@@ -49,6 +49,7 @@ if os.path.exists(output_csv_file):
     augmented_df = pl.read_csv(output_csv_file)
     transcript_discard = set(augmented_df['transcript_id'].unique().to_list())
 else:
+    augmented_df = None
     transcript_discard = set()
 
 data = pl.read_csv(input_annomi_file)
@@ -115,7 +116,11 @@ for (transcript_id,), transcript_df in data.group_by('transcript_id'):
             }
             augmented_texts.append(new_row)
 
-    augmented_df = pl.DataFrame(augmented_texts)
+    current_augmented_df = pl.DataFrame(augmented_texts)
+    if augmented_df is None:
+        augmented_df = current_augmented_df
+    else:
+        augmented_df = augmented_df.vstack(current_augmented_df)
     augmented_df.write_csv(output_csv_file)
 
 print(f"\n\nAugmented data saved to {output_csv_file}")
