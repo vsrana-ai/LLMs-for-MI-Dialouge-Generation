@@ -54,8 +54,6 @@ else:
 
 data = pl.read_csv(input_annomi_file)
 
-augmented_texts = []
-
 custom_llm_name = "MI-llm-augmentation"
 
 ollama.create(
@@ -105,8 +103,10 @@ for (transcript_id,), transcript_df in data.group_by('transcript_id'):
     generated_client_utterances = generated_text.count('Client:')
     generated_therapist_utterances = generated_text.count('Therapist:')
     augmented_rows = generated_text.split('\n')
+    new_augmented_rows = []
     for line in augmented_rows:
-        if line.strip() and ':' in line:
+        line = line.strip()
+        if 'Client:' in line or 'Therapist:' in line:
             interlocutor, text = line.split(':', 1)
             new_row = {
                 'transcript_id': transcript_id,
@@ -114,12 +114,20 @@ for (transcript_id,), transcript_df in data.group_by('transcript_id'):
                 'utterance_text': text.strip(),
                 'same_number_of_interlocutors_rounds': generated_client_utterances == client_utterances and generated_therapist_utterances == therapist_utterances
             }
-            augmented_texts.append(new_row)
+            new_augmented_rows.append(new_row)
 
-    current_augmented_df = pl.DataFrame(augmented_texts)
+    # Sanity check if sentences with more than 8 words (rule of thumb) are repeated
+    long_sentences = [row['utterance_text'] for row in new_augmented_rows if len(row['utterance_text'].split()) > 8]
+    unique_long_sentences = set(long_sentences)
+    current_augmented_df = pl.DataFrame(new_augmented_rows)
+    if len(unique_long_sentences) < len(long_sentences):
+        print(len(unique_long_sentences), len(long_sentences))
+        from pprint import pp
+        pp([x for x in long_sentences if long_sentences.count(x) > 1])
+        import pdb; pdb.set_trace()
     if augmented_df is None:
         augmented_df = current_augmented_df
-    else:
+    elif len(current_augmented_df) > 0:
         augmented_df = augmented_df.vstack(current_augmented_df)
     augmented_df.write_csv(output_csv_file)
 
