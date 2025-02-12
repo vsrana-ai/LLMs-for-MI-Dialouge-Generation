@@ -6,21 +6,6 @@ import ollama
 from prompt_templates import prompt_templates
 
 
-modelfile = """
-FROM {llm}
-
-PARAMETER temperature {temperature}
-PARAMETER num_ctx {num_ctx}
-PARAMETER top_k {top_k}
-PARAMETER top_p {top_p}
-
-# set the system message
-SYSTEM \"""
-{system_prompt}.
-\"""
-"""
-
-
 # Define the base directory for easier file management
 script_filepath = os.path.dirname(os.path.realpath(__file__))
 
@@ -58,14 +43,14 @@ custom_llm_name = "MI-llm-augmentation"
 
 ollama.create(
     model=custom_llm_name,
-    modelfile=modelfile.format(
-        llm=args.llm,
-        temperature=args.temperature,
-        num_ctx=args.context_len,
-        top_k=args.top_k,
-        top_p=args.top_p,
-        system_prompt=prompt_templates['system'][args.system_prompt]
-    )
+    from_=args.llm,
+    parameters={
+        'temperature': args.temperature,
+        'num_ctx': args.context_len,
+        'top_k': args.top_k,
+        'top_p': args.top_p
+    },
+    system=prompt_templates['system'][args.system_prompt]
 )
 
 # 2) Group by session ID to process each session individually
@@ -106,7 +91,7 @@ for (transcript_id,), transcript_df in data.group_by('transcript_id'):
     new_augmented_rows = []
     for line in augmented_rows:
         line = line.strip()
-        if 'Client:' in line or 'Therapist:' in line:
+        if line.startswith('Client:') or line.startswith('Therapist:'):
             interlocutor, text = line.split(':', 1)
             new_row = {
                 'transcript_id': transcript_id,
