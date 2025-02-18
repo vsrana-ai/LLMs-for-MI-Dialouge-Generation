@@ -16,8 +16,9 @@ OUTPUT_PATH="/home/gmedda/projects/MI-LLMAugmentation/hf_output"
 MODELS=(
   "allenai/longformer-base-4096"
   "google/bigbird-roberta-base"
-  "google-t5/t5-base"
-  # "reformer"
+  # "google-t5/t5-base"
+  "answerdotai/ModernBERT-base"
+  # "google/long-t5-tglobal-base"
 )
 
 # For each model, run once without augmented data, then with each augmented file
@@ -33,8 +34,11 @@ do
     "google-t5/t5-base")
       TRAIN_BATCH_SIZE=16
       ;;
-    "reformer")
-      TRAIN_BATCH_SIZE=16
+    "answerdotai/ModernBERT-base")
+      TRAIN_BATCH_SIZE=4
+      ;;
+    "google/long-t5-tglobal-base")
+      TRAIN_BATCH_SIZE=2
       ;;
     *)
       TRAIN_BATCH_SIZE=2
@@ -47,7 +51,8 @@ do
     CUDA_VISIBLE_DEVICES=1 python language_model_finetuning.py "$MODEL" $TASK \
       --folderpath "$FOLDER_PATH" \
       --epochs "$EPOCHS" \
-      --train_batch_size "$TRAIN_BATCH_SIZE"
+      --train_batch_size "$TRAIN_BATCH_SIZE" \
+      --use_accelerator
   fi
 
   echo "Running finetuning on $MODEL with all LLM augmented data..."
@@ -66,7 +71,8 @@ do
       --augmented_train_file "$AUG_FILE" \
       --epochs "$EPOCHS" \
       --train_batch_size "$TRAIN_BATCH_SIZE" \
-      --augmentation_type "LLM"
+      --augmentation_type "LLM" \
+      --use_accelerator
   done < <(find "$LLM_AUGMENTED_PATH" -name 'augmented_*.csv' -print0)
 done
 
@@ -114,6 +120,7 @@ do
       --augmented_train_file "$AUG_FILE" \
       --epochs "$EPOCHS" \
       --train_batch_size "$TRAIN_BATCH_SIZE" \
-      --augmentation_type "NLP"
+      --augmentation_type "NLP" \
+      --use_accelerator
   done < <(find "$NLP_AUGMENTED_PATH" -name 'augmented_*.csv' -print0)
 done

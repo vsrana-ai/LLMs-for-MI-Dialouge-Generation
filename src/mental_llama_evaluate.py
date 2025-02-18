@@ -117,44 +117,32 @@ validation_dataset = Dataset.from_pandas(validation_df.to_pandas())
 test_dataset = Dataset.from_pandas(test_df.to_pandas())
 
 if model_name == 'klyang/MentaLLaMA-chat-7B':
-    from transformers import LlamaTokenizer, LlamaConfig, LlamaForSequenceClassification
+    from transformers import LlamaTokenizer, LlamaConfig, LlamaForCausalLM
     tokenizer_class = LlamaTokenizer
     config_class = LlamaConfig
-    model_class = LlamaForSequenceClassification
-elif model_name == 'mental/mental-bert-base-uncased':
-    from transformers import AutoTokenizer, AutoModelForSequenceClassification
-    tokenizer = AutoTokenizer.from_pretrained("mental/mental-bert-base-uncased")
-    model = AutoModelForSequenceClassification.from_pretrained("mental/mental-bert-base-uncased")
-elif model_name == 'Tianlin668/MentalT5':
-    from transformers import T5Tokenizer, T5ForSequenceClassification
-    tokenizer = T5Tokenizer.from_pretrained('Tianlin668/MentalT5')
-    model = T5ForSequenceClassification.from_pretrained('Tianlin668/MentalT5')
-
+    model_class = LlamaForCausalLM
 
 tokenizer = tokenizer_class.from_pretrained(model_name)
 
-config_kwargs = dict(
-    num_labels=2,
-    id2label=id2label,
-    label2id=label2id,
-    finetuning_task="text-classification",
-    problem_type="single_label_classification",
-    pad_token_id=tokenizer.convert_tokens_to_ids(tokenizer.pad_token)
-)
-config = config_class.from_pretrained(model_name, **config_kwargs)
+# config_kwargs = dict(
+#     num_labels=2,
+#     id2label=id2label,
+#     label2id=label2id,
+#     finetuning_task="text-classification",
+#     problem_type="single_label_classification",
+#     pad_token_id=tokenizer.convert_tokens_to_ids(tokenizer.pad_token)
+# )
+config = config_class.from_pretrained(model_name)
 
 print("Using model config:")
 print(config)
 print("Tokenizer max length from config:", tokenizer.model_max_length)
 
 typical_model_config_fields = ["n_positions", "seq_len", "seq_length", "n_ctx", "sliding_window"]
-context_windows = [
-    tokenizer.model_max_length if hasattr(tokenizer, "model_max_length") else np.inf,
-    getattr(config, "max_position_embeddings", np.inf)
-]
+context_windows = [getattr(config, "max_position_embeddings", np.inf)]
 context_windows.extend([getattr(config, field) for field in typical_model_config_fields if hasattr(config, field)])
 
-max_sequnce_length = min(8192, min(context_windows))
+max_sequnce_length = min(context_windows)
 # if model_name == supported_models["reformer"]:
 #     config.axial_pos_shape = (config.axial_pos_shape[0], max_sequnce_length // config.axial_pos_shape[0])
 
@@ -163,7 +151,7 @@ model = model_class.from_pretrained(model_name, device_map='auto', config=config
 tokenizer_kwargs = dict(
     padding="max_length",
     truncation=True,
-    max_length=max_sequnce_length,
+    max_length=tokenizer.model_max_length,
 )
 print("Max input length retrieved from other config fields", context_windows.pop()) if len(context_windows) else print(f"No Max input variable found for {model}")
 
@@ -247,11 +235,23 @@ if args.use_accelerator:
 # print("Test Metrics:", metrics)
 
 # Example inference with the fine-tuned model
-classifier = pipeline(
-    "text-classification",
+generator = pipeline(
+    "text-generation",
     model=model,
-    tokenizer=tokenizer
+    tokenizer=tokenizer,
+    return_full_text=False
 )
+
+prompt = """Identify the quality of the following therapy session consisting of therapist and client exchanges utterances.
+Don't generate anything other than the label.
+The quality label must be "low" if the session is of low quality and "high" if the session is of high quality.
+
+Session:
+{session_text}
+
+Quality Label:
+
+"""
 
 # Classify a new therapy session
 session_text = """
@@ -260,19 +260,38 @@ Client: I'm feeling very anxious about my upcoming exams.
 Therapist: Let's explore that anxiety. What triggers it?
 ..."""
 
-result = classifier(session_text)
+result = generator(prompt + session_text)
 print("Classification Result:", result)
 
 predicted_labels = []
 for test_text in test_df["utterance_text"]:
-    single_pred = classifier(test_text, **tokenizer_kwargs)[0]["label"]  # returns a list of dicts
-    predicted_labels.append(single_pred)
+    genereated_text_tries = []
+    multiple_tries_due_to_inconsistent_or_incoherent_responses = 3
+    for _ in range(multiple_tries_due_to_inconsistent_or_incoherent_responses):
+        generated_text = generator(
+            prompt.format(session_text=test_text),
+            **{
+                **tokenizer_kwargs,
+                # 'generation_config': model.generation_config,
+                # 'top_p': 1,
+                # 'do_sample': False,
+                'max_new_tokens': max_sequnce_length - tokenizer.model_max_length
+            }
+        )
+        genereated_text_tries.append(generated_text[0]["generated_text"])
+    predicted_labels.append(genereated_text_tries)
 
 test_df = test_df.with_columns(
     mi_quality=pl.col('mi_quality').map_elements(id2label.__getitem__, return_dtype=pl.String),
-    mi_quality_pred=pl.Series(predicted_labels)
+    mi_quality_pred_generation=pl.Series(predicted_labels)
+)
+breakpoint()
+
+(
+    test_df
+    .explode('mi_quality_pred_generation')
+    .select(pl.all().exclude('utterance_text'))
+    .write_csv(os.path.join(save_path, "test_with_generated_predictions.csv"))
 )
 
-test_df.write_csv(os.path.join(save_path, "test_with_predictions.csv"))
-
-compute_metrics(test_df)
+# compute_metrics(test_df)

@@ -86,7 +86,14 @@ if args.augmented_train_file is not None:
         )
     elif args.augmentation_type == "NLP":
         augmented_train_df = pl.read_csv(os.path.join(args.folderpath, args.augmented_train_file))
-        augmented_train_df = train_df.select(
+        if len(augmented_train_df) > len(train_df):
+            base_train_df = pl.concat(
+                [train_df] * (len(augmented_train_df) // len(train_df)),
+                how="vertical"
+            )
+        else:
+            base_train_df = train_df
+        augmented_train_df = base_train_df.select(
             pl.all().exclude('utterance_text'),
             utterance_text=augmented_train_df.to_numpy().flatten()
         )
@@ -166,7 +173,7 @@ def compute_metrics(predictions_df):
         print("Classification Report:", file=f)
         print(classification_report(predictions_df["mi_quality"], predictions_df["mi_quality_pred"], digits=4), file=f)
 
-        balanced_accuracy_score(predictions_df["mi_quality"], predictions_df["mi_quality_pred"])
+        print(f'Balanced accuracy score: {balanced_accuracy_score(predictions_df["mi_quality"], predictions_df["mi_quality_pred"])}', file=f)
 
         cm = confusion_matrix(predictions_df["mi_quality"], predictions_df["mi_quality_pred"], labels=["low","high"])
         print("Confusion Matrix:", file=f)
@@ -203,6 +210,8 @@ else:
         "longformer": "allenai/longformer-base-4096",
         "bigbird": "google/bigbird-roberta-base",
         "t5": "google-t5/t5-base",
+        "longt5": "google/long-t5-tglobal-base",
+        "modernbert": "answerdotai/ModernBERT-base"
         # "reformer": "reformer" # "google/reformer-crime-and-punishment"
     }
 
@@ -222,6 +231,19 @@ else:
         config_class = T5Config
         tokenizer_class = T5Tokenizer
         sequence_classification_class = T5ForSequenceClassification
+    elif model_name == supported_models["longt5"]:
+        from transformers import LongT5Config, AutoTokenizer
+        import sys
+        sys.path.append(os.path.join(os.path.dirname(__file__)))
+        from classifiers import LongT5ForSequenceClassification
+        config_class = LongT5Config
+        tokenizer_class = AutoTokenizer
+        sequence_classification_class = LongT5ForSequenceClassification
+    elif model_name == supported_models["modernbert"]:
+        from transformers import ModernBertConfig, AutoTokenizer, ModernBertForSequenceClassification
+        config_class = ModernBertConfig
+        tokenizer_class = AutoTokenizer
+        sequence_classification_class = ModernBertForSequenceClassification
     elif model_name == supported_models["reformer"]:
         from transformers import ReformerConfig, ReformerTokenizer, ReformerForSequenceClassification
         config_class = ReformerConfig
@@ -285,6 +307,8 @@ else:
         pad_token_id=tokenizer.convert_tokens_to_ids(tokenizer.pad_token)
     )
     config = config_class.from_pretrained(model_name, **config_kwargs)
+    if model_name == supported_models["longt5"]:
+        config.classifier_dropout = 0
 
     print("Using model config:")
     print(config)
@@ -298,10 +322,13 @@ else:
     context_windows.extend([getattr(config, field) for field in typical_model_config_fields if hasattr(config, field)])
 
     max_sequnce_length = min(8192, min(context_windows))
+    if model_name == supported_models["longt5"]:
+        max_sequnce_length = 2048
     # if model_name == supported_models["reformer"]:
     #     config.axial_pos_shape = (config.axial_pos_shape[0], max_sequnce_length // config.axial_pos_shape[0])
 
-    model = sequence_classification_class.from_pretrained(model_name, config=config)
+    model_kwargs = dict(device_map='auto') if model_name != supported_models["bigbird"] else dict()
+    model = sequence_classification_class.from_pretrained(model_name, config=config, **model_kwargs)
 
     tokenizer_kwargs = dict(
         padding="max_length",
@@ -411,7 +438,7 @@ else:
     # Example inference with the fine-tuned model
     classifier = pipeline(
         "text-classification",
-        model=model_save_file,
+        model=model,
         tokenizer=tokenizer
     )
 
