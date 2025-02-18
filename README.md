@@ -1,1 +1,1 @@
-# Bias-Aware LLMs centric data generation in Psychology 
+# IN-Context Motivational Interviewing (MI) dialogue Generation 
