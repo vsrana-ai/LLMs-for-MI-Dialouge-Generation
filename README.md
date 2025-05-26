@@ -1,4 +1,4 @@
-# IN-Context Motivational Interviewing (MI) dialogue Generation 
+# Contextual Motivational Interviewing (MI) Dialogue Generation 
 
 ## The table below depicts the wide range of large language models deployed for this research and their evaluation based on their capacity to produce in-context motivational interviewing (MI) dialogue generation at the entire conversation level. 
 
