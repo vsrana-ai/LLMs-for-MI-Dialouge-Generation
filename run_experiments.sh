@@ -7,10 +7,10 @@ EPOCHS=$1
 TASK=$2
 
 # Paths
-FOLDER_PATH="/home/gmedda/projects/MI-LLMAugmentation/AnnoMI Data/Experimental Setup 1 (single transcript in train)/unprocessed"
-LLM_AUGMENTED_PATH="/home/gmedda/projects/MI-LLMAugmentation/AnnoMI Data/LLM Augmented Dataset/chatgpt_prompt_engineering_prompt_v1/Experimental Setup 1 (single transcript in train)/unprocessed"
-NLP_AUGMENTED_PATH="/home/gmedda/projects/MI-LLMAugmentation/AnnoMI Data/NLP Augmented Dataset/Experimental Setup 1 (single transcript in train)/unprocessed"
-OUTPUT_PATH="/home/gmedda/projects/MI-LLMAugmentation/hf_output"
+FOLDER_PATH="folder_path"
+LLM_AUGMENTED_PATH="LLM_AUGMENTED_PATH"
+NLP_AUGMENTED_PATH="NLP_AUGMENTED_PATH"
+OUTPUT_PATH="OUTPUT_PATH"
 
 # List of supported models
 MODELS=(
