@@ -1,0 +1,99 @@
+transcript_id,interlocutor,utterance_text,same_number_of_interlocutors_rounds
+12,Therapist,"Sarah, I'm glad you came for your well-woman exam today. It seems we covered many of your concerns. However, I would like to inquire further about your smoking habits. Would that be alright?",false
+6,Therapist,"It seems that you've been facing a lot of challenges, Sal. Can we start by identifying which ones are most concerning to you right now?",false
+3,Therapist,"It seems like you don't feel that your health is a significant concern at this moment, correct?",false
+24,Therapist,"""How can I assist you today?""",false
+24,Client,"""I'm hoping to find a solution for my workplace becoming smoke-free and its impact on me.""",false
+33,Therapist,"It seems like you've tried various methods to quit smoking, but none have worked for you so far. Can we discuss some strategies that might be helpful?",false
+27,Therapist,I understand that your asthma symptoms have been quite challenging to manage recently. Let's explore some strategies for improving control and preventing future visits here.,false
+45,Therapist,"Hi, Mary, how was your day?",false
+45,Client,Fine. Where do you want me to sign?,false
+42,Therapist,"It seems like you've reached a plateau with your weight loss efforts, despite all the exercise and activity you're doing. You feel frustrated because nothing is changing on the scale?",false
+57,Therapist,Mr. Johnson?,false
+57,Client,Yeah,false
+51,Therapist,Could you share your thoughts on the flu vaccine and its importance for protecting vulnerable individuals?,false
+51,Client,"I understand that getting vaccinated can help prevent me from spreading it to others, especially considering my grandparents' health and a co-worker who is pregnant.",false
+54,Therapist,"Hello Scott, I understand you've been wanting to discuss your exercise routine lately.",false
+63,Therapist,"So Tom, this infection has been quite painful for you but we have antibiotics that can help if taken regularly for 10 days. Would you be able to follow through with that?",false
+69,Therapist,"Hello, Dr. Martin here. I understand you have a query regarding citalopram? Could we discuss that now?",false
+69,Client,"Yes, actually, are you the pharmacist who prescribed me this medication?",false
+72,Therapist,"It seems like you've been feeling pressured to drink at parties, even though it goes against your values and could negatively impact your performance as a star athlete. Is that correct?",false
+72,Client,"Yes, exactly. I feel uncomfortable being around situations where people are drinking excessively or engaging in risky behavior without alcohol present.",false
+66,Therapist,"Hello Mr. Stowe, I'm Bruce Berger and it seems like you came here today to discuss your diabetes management.",false
+81,Therapist,"""Could you share your thoughts on how your parents nurtured you?""",false
+81,Client,"""Sure, I've been feeling a bit uneasy lately.""",false
+78,Therapist,"Hello, are you Julie Thompson?",false
+90,Therapist,"It seems like you've been engaging in some activities that are concerning to me, such as attending parties where alcohol is present and consumed. As a parent and someone who cares about your well-being, I want to express my concern for your future.",false
+87,Therapist,It seems like you were surprised by what you discovered about your drinking patterns through those questionnaires last week?,false
+93,Therapist,"It seems like there are several areas we can focus on, such as physical activity and nutrition habits. Your primary motivation is to boost your mood, energy levels, reduce irritability and stress, and improve body confidence. Is that correct?",false
+96,Therapist,It seems like you've been exploring various sources of information regarding alcohol consumption during pregnancy and its potential impact on your baby. Is that correct?,false
+99,Therapist,"Steve, before we finish our session today, I'd like to discuss your drinking habits with you further.",false
+108,Therapist,"It seems like you've been dealing with a lot of stress lately, juggling work and childcare responsibilities while also being a single mom to your two-year-old son. Is there anything specific that has been causing you particular concern?",false
+102,Therapist,"Hello, Liz. It's great that you could meet with me today.",false
+105,Therapist,"It sounds like you've been making progress at the gym recently, which is fantastic!",false
+117,Therapist,"It seems like you've identified that drinking has been causing some problems for you lately, and you want to make a change in your habits. Is that correct?",false
+111,Therapist,"Hello, are you Katie?",false
+111,Client,Yes.,false
+114,Therapist,"It seems that you've accurately summarized the security report regarding your incident last Friday when you were stopped for driving under the influence and taken to detox, where your age was listed as 20. In light of this information, can you share with me some details leading up to the event?",false
+120,Therapist,"It sounds like we've made some progress and I believe you'll feel better over time. Would it be alright if we discuss another topic, such as weight management strategies?",false
+126,Therapist,"Hello, Kaylie. It seems you're here to pick up a prescription today.",false
+123,Therapist,"It seems like you've been using something that may be causing irritation and damage to your mouth tissue, which could lead to oral health issues if continued. Could it possibly be a tobacco product?",false
+4,Therapist,"Hello, Emily. How have you been?",false
+132,Therapist,"It's great to see you again, Mr. Green. I recall our previous session where we discussed your health concerns and how important it is for you to take control of your own well-being. Today, let's discuss some actionable steps that can improve the situation without relying solely on medication. Would you like to start by sharing what comes naturally to mind?",false
+13,Therapist,"Hello, Mrs. Smith. I would like to inform you that at this appointment, we will be administering vaccines to Lilly.",false
+13,Client,"Oh, I'm not sure if I feel comfortable with that. I have been reading a lot of information lately regarding them.",false
+7,Therapist,"It seems like you had a rough night out last night, and I'm curious to know how your ankle sprain happened?",false
+10,Therapist,"Hello, I understand you've recently been diagnosed with diabetes and are seeking guidance on managing it effectively?",false
+16,Therapist,"It seems like there are some pros and cons to living with Tristan, as well as considering moving in with your auntie and uncle. Could you share what those might be? What would make it good for you versus challenging?",false
+28,Therapist,"Hello Carrie, it's great to see you today. How are you feeling?",false
+22,Therapist,"It seems like you've done a values clarification handout recently, and I wanted to discuss your top five values with you further. Could you share what they are?",false
+25,Therapist,It seems like you've identified that starting an exercise routine is important to improve your health and set a good example for your children. Is there anything specific about this change that you find challenging?,false
+19,Therapist,"It seems like you've had enough of this behavior, correct?",false
+19,Client,"Yes, I have.",false
+40,Therapist,"It seems you've been doing well since we last talked, three months ago. You mentioned making some positive changes in your environment and behaviors as well as forming a few new friendships nearby. Is that correct?",false
+43,Therapist,"It seems like you've faced situations where anxiety has held you back, but there have been instances in the past when you successfully overcame it and felt proud of yourself. Do you think this experience could help motivate you to tackle your current challenge?",false
+46,Therapist,"So, Jacob, everything seems normal during your physical examination. Would you like to ask any questions for me?",false
+61,Therapist,"Hello Mrs. Smith, I'm Terri, one of the nurses who works with Dr. Fields.",false
+73,Therapist,"It seems like you've been using oxy, which is a pain medication introduced to you by someone else. You found it helpful in dealing with your grandma's loss and managing some of the pain that comes with it. However, you also have doubts about its long-term use and don't fully understand all aspects of it. Is that correct?",false
+70,Therapist,"""Hello, Dr. Martin. I'm Lori, the pharmacist on duty today. Could you spare a few minutes to discuss citalopram?""",false
+67,Therapist,"Let's review your form you filled out regarding substance use. I see that you mentioned drinking alcohol occasionally and using marijuana more frequently, specifically 30 days in the last year. Can we discuss how often you vape?",false
+76,Therapist,"It seems like you've been reflecting on your values and priorities, Deborah. Can you share more about how these factors have influenced your life?",false
+82,Therapist,"It seems like you've given a lot of thought to your alcohol and contraception use, considering it important but with some uncertainty in confidence levels. Is there anything else you'd like to discuss further?",false
+79,Therapist,"It seems like you recognized that you had made a mistake and were worried about what it meant for something important to you, possibly your relationship with Erin? Is that correct?",false
+79,Client,"Yes, I guess that's what I mean when I say I felt guilty or bad talking to Erin on the phone.",false
+88,Therapist,It seems like you've already identified a specific goal that aligns with your desire to avoid sanctions and improve punctuality for school attendance. Is there anything else you would like to work on in the next 30 days?,false
+97,Therapist,It seems like you've been feeling overwhelmed with your busy schedule and weight concerns.,false
+91,Therapist,"Hello, Jean. I'm Dr. Selby. Nice to meet you. How can I assist you today?",false
+94,Therapist,It seems like there are two parts to your dilemma - wanting change and feeling some guilt about it.,false
+106,Therapist,"It seems like Aiden has been battling ear infections frequently, and I've noticed that his parent smokes. Could you tell me more about this?",false
+112,Therapist,"It seems like you've been through a tough time, Chris. Can we talk about what happened and how it affected your life?",false
+109,Therapist,"It seems like you've noticed some negative effects from smoking, such as stains on your teeth and concerns about oral health. Have you considered that these little cigarillos may have similar harmful effects?",false
+115,Therapist,"How are you feeling, David?",false
+8,Therapist,"It seems like you've taken time off work and are here because your wife thinks you have a problem with smoking, which is causing tension between the two of you. Is that correct?",false
+14,Therapist,"It seems like you've been wanting to make some changes related to your eating habits, and it sounds important to you. To increase confidence in starting this plan, I want to ask about a time when you successfully accomplished something challenging for you. Can you share what strengths or qualities helped you achieve that goal?",false
+11,Therapist,What other factors have led you to seek help today?,false
+20,Therapist,"It seems like you've been through a lot with your smoking habit, and I want to help you find ways that work for you. Have you considered support groups or classes?",false
+32,Therapist,"Here's a summary of what I understand from your security report and our conversation so far. You were stopped on Stadium Road last Friday, received a DUI citation, and then taken to detox. You are 21 years old. Is this correct?",false
+32,Client,"Yes, that sounds about right. I was pretty intoxicated at the time.",false
+23,Therapist,It seems like you've been experiencing some difficulties related to social anxiety and your job as a freelance photographer. Can we talk more about those challenges?,false
+26,Therapist,How has your experience been lately?,false
+35,Therapist,"It seems like you've been feeling a bit dissatisfied with your health patterns lately, especially in terms of energy levels and mood shifts.",false
+44,Therapist,"Hello, Andrea. It's my job to meet with all students like you. I usually meet with you once or twice a semester and will be discussing your life, goals, and behaviors today.",false
+41,Therapist,It seems like you've had a significant realization about valuing yourself more and prioritizing your own needs over others'. Is that correct?,false
+38,Therapist,"It's great to meet you, Sarah. I am Delwyn, a counselor here at the clinic. And I heard from your nurse practitioner that there were discussions about smoking and alcohol use during your recent annual exam. Would you mind sharing some details?",false
+50,Therapist,"It seems like you've identified that your coffee consumption might be contributing to some of your agitation, even though it also provides a boost in alertness and focus for work. Would you be willing to try reducing the number of cups per day?",false
+53,Therapist,"Hello Laura. So, thank you for coming in today. I'm unsure if you know why you are here and what we will discuss. However, our meeting is to talk about your life goals, interests, behaviors, and any other topics that come up during the session. Would you like to start by sharing a bit more about yourself?",false
+65,Therapist,"It sounds like you've heard that if you quit smoking, you might gain weight and struggle with your finances to afford a new wardrobe. Am I understanding correctly?",false
+62,Therapist,How have things been going for you since our last session?,false
+71,Therapist,"It seems like you've encountered some challenges with filling out forms, which may be affecting your progress towards getting a qualification in car-related work. Is that correct?",false
+80,Therapist,"It's great to see you again, Jean.",false
+83,Therapist,"Hello, Rick. Welcome to our session today.",false
+86,Therapist,"It sounds like you're feeling overwhelmed by a recent event and are uncertain about how to proceed next. You feel like people aren't willing to help, which makes you feel alone. Am I understanding correctly?",false
+86,Client,"Yes, that seems accurate.",false
+104,Therapist,Would it be alright if I looked over the questionnaire you filled out before our session?,false
+95,Therapist,"Hello, Ruth. How are you feeling today?",false
+113,Therapist,"Hello, Sandra. It's great to see you today and have a brief conversation with you. I understand that you may be short on time but appreciate your willingness to come in for our session.",false
+122,Therapist,"It seems like you've been feeling upset about your mom finding and reacting to your personal belongings, particularly a stash of something that was yours alone. Is that correct?",false
+131,Therapist,It's great you've come along to discuss stopping smoking with me.,false
+119,Therapist,It seems like finding reliable childcare is crucial for you to attend interviews and secure a job.,false
+125,Therapist,"I understand you've had a challenging night with your baby, as she was up every three hours to eat. It seems like this is quite different from what you expected based on when you started sleeping through the night at around one month old. Can you tell me more about what you find normal for babies her age?",false
