@@ -1,4 +1,4 @@
-# ARR Rolling Review Submission 2026 
+# In-Context Motivational Interviewing Session Generation 
 
 ## Repository Overview
 This repository contains **code and data** associated with the anonymous ARR submission. All artifacts are provided to facilitate **reproducibility and evaluation**.
